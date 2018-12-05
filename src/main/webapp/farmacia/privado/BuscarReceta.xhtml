@@ -10,7 +10,7 @@
         <ui:composition template="/plantillas/plantillaComun.xhtml">
 
             <ui:define name="tituloPagina">
-                <h2> Página principal de Farmacias </h2>
+                <h2> Buscar receta </h2>
             </ui:define>            
 
             <ui:define name="menu">
@@ -18,7 +18,13 @@
             </ui:define>
 
             <ui:define name="contenido">
-                <li>    <h:link outcome="BuscarReceta" value="Buscar Receta" /> </li>
+                <h:form id="buscarReceta" title="Receta">
+                    <h:inputText id="numTargeta" value="#{pacienteControlador.numeroTarjetaSanitaria}"/>
+                    <h:commandButton value="Buscar" action="#{pacienteControlador.findByTargeta(numTargeta)}" />
+                </h:form>
+                <h:form id="datosPaciente">
+                    <h:inputText id="dni" label="DNI" readonly="true" value="#{pacienteControlador.pacienteActual.dni}" />
+                </h:form>
             </ui:define>
 
         </ui:composition>

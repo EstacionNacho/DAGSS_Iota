@@ -135,4 +135,11 @@ public class PacienteControlador implements Serializable {
         }
         return destino;
     }
+    
+    public Paciente findByTargeta(String numeroTarjetaSanitaria){
+        
+       Paciente toRet = pacienteDAO.buscarPorTarjetaSanitaria(numeroTarjetaSanitaria);
+       
+       return toRet;
+    }
 }
