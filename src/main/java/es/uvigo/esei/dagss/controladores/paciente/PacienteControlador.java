@@ -11,6 +11,10 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 
+//Imports nuevos
+import es.uvigo.esei.dagss.dominio.entidades.Receta;
+import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -36,7 +40,12 @@ public class PacienteControlador implements Serializable {
 
     @Inject
     private PacienteDAO pacienteDAO;
-
+    
+    //Injects nuevos
+    @Inject
+    private RecetaDAO recetaDAO;
+    
+    
     /**
      * Creates a new instance of AdministradorControlador
      */
@@ -135,11 +144,20 @@ public class PacienteControlador implements Serializable {
         }
         return destino;
     }
-    
-    public Paciente findByTargeta(String numeroTarjetaSanitaria){
-        
-       Paciente toRet = pacienteDAO.buscarPorTarjetaSanitaria(numeroTarjetaSanitaria);
-       
-       return toRet;
+
+    public String datosPacienteTargeta() {
+
+        String destino = null;
+
+        Paciente paciente = pacienteDAO.buscarPorTarjetaSanitaria(this.numeroTarjetaSanitaria);
+        if (paciente == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe un paciente con targeta sanitaria: " + numeroTarjetaSanitaria, ""));
+        } else {
+            pacienteActual = paciente;
+            
+            destino = "BuscarReceta";
+        }
+
+        return destino;
     }
 }
