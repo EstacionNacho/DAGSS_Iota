@@ -9,12 +9,16 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
+//Imporst nuevo
+import java.util.List;
+
 @Stateless
 @LocalBean
 public class RecetaDAO extends GenericoDAO<Receta>{
  
-    public Receta buscarPorIdPaciente(Long id) {
-        TypedQuery<Receta> q = em.createQuery("", Receta.class);
+    public Receta buscarPorIdPrescripcion(Long id) {
+        
+        TypedQuery<Receta> q = em.createQuery("SELECT * FROM Receta WHERE prescripcion_id = :id", Receta.class);
         q.setParameter("id", id);
         
         return q.getSingleResult();

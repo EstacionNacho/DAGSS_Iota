@@ -23,36 +23,12 @@
                     <h:commandButton value="Buscar" action="#{pacienteControlador.datosPacienteTargeta()}" />
                 </h:form>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="DNI"/></f:facet>
-                    <h:outputText value="#{pacienteControlador.pacienteActual.dni}"></h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header"><h:outputLabel value="NumTargetaSanitaria"/></f:facet>
-                    <h:outputText value="#{pacienteControlador.pacienteActual.apellidos}"></h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header"><h:outputLabel value="NumTargetaSanitaria"/></f:facet>
-                    <h:outputText value="#{pacienteControlador.pacienteActual.nombre}"></h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header"><h:outputLabel value="NumTargetaSanitaria"/></f:facet>
-                    <h:outputText value="#{pacienteControlador.pacienteActual.numeroSeguridadSocial}"></h:outputText>
-                </h:column>
-                <h:column>
                     <f:facet name="header"><h:outputLabel value="NumTargetaSanitaria"/></f:facet>
                     <h:outputText value="#{pacienteControlador.pacienteActual.numeroTarjetaSanitaria}"></h:outputText>
                 </h:column>
                 <h:column>
-                    <f:facet name="header"><h:outputLabel value="NumTargetaSanitaria"/></f:facet>
-                    <h:outputText value="#{pacienteControlador.pacienteActual.medico.apellidos}"></h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header"><h:outputLabel value="NumTargetaSanitaria"/></f:facet>
-                    <h:outputText value="#{pacienteControlador.pacienteActual.medico.nombre}"></h:outputText>
-                </h:column>
-                <h:column>
-                    <f:facet name="header"><h:outputLabel value="NumTargetaSanitaria"/></f:facet>
-                    <h:outputText value="#{pacienteControlador.pacienteActual.medico.numeroColegiado}"></h:outputText>
+                    <f:facet name="header"><h:outputLabel value="receta"/></f:facet>
+                    <h:outputText value="#{pacienteControlador.prescripcion}"></h:outputText>
                 </h:column>
             </ui:define>
 

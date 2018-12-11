@@ -14,6 +14,9 @@ import java.io.Serializable;
 //Imports nuevos
 import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
+import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
+import es.uvigo.esei.dagss.dominio.daos.PrescripcionDAO;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -35,6 +38,10 @@ public class PacienteControlador implements Serializable {
     private String numeroSeguridadSocial;
     private String password;
 
+    //Atributos nuevos
+    private List<Receta> Recetas;
+    private List<Prescripcion> Prescripciones;
+    
     @Inject
     private AutenticacionControlador autenticacionControlador;
 
@@ -44,7 +51,8 @@ public class PacienteControlador implements Serializable {
     //Injects nuevos
     @Inject
     private RecetaDAO recetaDAO;
-    
+    @Inject
+    private PrescripcionDAO prescripcionDAO;
     
     /**
      * Creates a new instance of AdministradorControlador
@@ -154,10 +162,17 @@ public class PacienteControlador implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe un paciente con targeta sanitaria: " + numeroTarjetaSanitaria, ""));
         } else {
             pacienteActual = paciente;
-            
+           
             destino = "BuscarReceta";
         }
-
+        
         return destino;
+    }
+    
+    public List<Receta> getReceta(){
+        return Recetas;
+    }
+    public List<Prescripcion> getPrescripcion(){
+        return Prescripciones;
     }
 }
