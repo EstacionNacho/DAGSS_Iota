@@ -3,9 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
-
-    <body>
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+         
+      xmlns:p="http://primefaces.org/ui">
+      
+      <body>
 
         <ui:composition template="/plantillas/plantillaComun.xhtml">
 
@@ -26,11 +28,33 @@
                     <f:facet name="header"><h:outputLabel value="NumTargetaSanitaria"/></f:facet>
                     <h:outputText value="#{pacienteControlador.pacienteActual.numeroTarjetaSanitaria}"></h:outputText>
                 </h:column>
-                <h:column>
-                    <f:facet name="header"><h:outputLabel value="receta"/></f:facet>
-                    <h:outputText value="#{pacienteControlador.prescripcion}"></h:outputText>
-                </h:column>
             </ui:define>
+            
+            <ui:define name="recetas">
+                <h:form id="detallesReceta">
+                    <h3>Detalle Receta</h3>
+                    <p:dataTable value="#{pacienteControlador.recetas}" var="receta">
+                       <p:column>
+                            <f:facet name="header"><h:outputLabel value="INICIO VALIDEZ"/></f:facet>
+                            <h:outputText value="#{receta.inicioValidez}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header"><h:outputLabel value="FIN VALIDEZ"/></f:facet>
+                            <h:outputText value="#{receta.finValidez}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                        </p:column>
+                         <p:column headerText="CANTIDAD">
+                             <h:outputText value="#{receta.cantidad}"/>
+                        </p:column>
+                        <p:column headerText="Estado">
+                                 <h:outputText value="#{receta.estado}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </ui:define>            
 
         </ui:composition>
 

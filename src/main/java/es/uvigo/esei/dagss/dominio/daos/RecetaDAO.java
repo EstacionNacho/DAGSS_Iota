@@ -16,11 +16,11 @@ import java.util.List;
 @LocalBean
 public class RecetaDAO extends GenericoDAO<Receta>{
  
-    public Receta buscarPorIdPrescripcion(Long id) {
+    public List<Receta> buscarPorIdPacienteConPrescripcion(Long id) {
         
-        TypedQuery<Receta> q = em.createQuery("SELECT * FROM Receta WHERE prescripcion_id = :id", Receta.class);
+        TypedQuery<Receta> q = em.createQuery("SELECT r FROM Receta INNER JOIN Prescripcion ON Receta.prescripcion_id = prescripcion.id WHERE Prescripcion.paciente_id = :id", Receta.class);
         q.setParameter("id", id);
         
-        return q.getSingleResult();
+        return q.getResultList();
     }
 }

@@ -162,17 +162,17 @@ public class PacienteControlador implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe un paciente con targeta sanitaria: " + numeroTarjetaSanitaria, ""));
         } else {
             pacienteActual = paciente;
-           
+            Recetas = recetaDAO.buscarPorIdPacienteConPrescripcion(paciente.getId());
             destino = "BuscarReceta";
         }
         
         return destino;
     }
     
-    public List<Receta> getReceta(){
+    public List<Receta> getRecetas(){
         return Recetas;
     }
-    public List<Prescripcion> getPrescripcion(){
+    public List<Prescripcion> getPrescripciones(){
         return Prescripciones;
     }
 }
