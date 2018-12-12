@@ -18,7 +18,9 @@ public class RecetaDAO extends GenericoDAO<Receta>{
  
     public List<Receta> buscarPorIdPacienteConPrescripcion(Long id) {
         
-        TypedQuery<Receta> q = em.createQuery("SELECT r FROM Receta INNER JOIN Prescripcion ON Receta.prescripcion_id = prescripcion.id WHERE Prescripcion.paciente_id = :id", Receta.class);
+        TypedQuery<Receta> q = em.createQuery("SELECT r FROM Receta AS r"
+                + " WHERE r.prescripcion.paciente.id = :id", Receta.class);
+        
         q.setParameter("id", id);
         
         return q.getResultList();

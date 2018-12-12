@@ -39,8 +39,8 @@ public class PacienteControlador implements Serializable {
     private String password;
 
     //Atributos nuevos
-    private List<Receta> Recetas;
-    private List<Prescripcion> Prescripciones;
+    private List<Receta> recetas;
+    private List<Prescripcion> prescripciones;
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -162,7 +162,7 @@ public class PacienteControlador implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe un paciente con targeta sanitaria: " + numeroTarjetaSanitaria, ""));
         } else {
             pacienteActual = paciente;
-            Recetas = recetaDAO.buscarPorIdPacienteConPrescripcion(paciente.getId());
+            recetas = recetaDAO.buscarPorIdPacienteConPrescripcion(paciente.getId());
             destino = "BuscarReceta";
         }
         
@@ -170,9 +170,9 @@ public class PacienteControlador implements Serializable {
     }
     
     public List<Receta> getRecetas(){
-        return Recetas;
+        return recetas;
     }
     public List<Prescripcion> getPrescripciones(){
-        return Prescripciones;
+        return prescripciones;
     }
 }

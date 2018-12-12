@@ -31,7 +31,7 @@
             </ui:define>
             
             <ui:define name="recetas">
-                <h:form id="detallesReceta">
+                <h:form id="detalleReceta">
                     <h3>Detalle Receta</h3>
                     <p:dataTable value="#{pacienteControlador.recetas}" var="receta">
                        <p:column>
@@ -50,7 +50,7 @@
                              <h:outputText value="#{receta.cantidad}"/>
                         </p:column>
                         <p:column headerText="Estado">
-                                 <h:outputText value="#{receta.estado}"/>
+                            <h:outputText value="#{receta.estadoReceta}"/>
                         </p:column>
                     </p:dataTable>
                 </h:form>
