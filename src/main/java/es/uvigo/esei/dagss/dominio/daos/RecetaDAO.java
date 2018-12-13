@@ -9,7 +9,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
-//Imporst nuevo
+//Imports nuevos
 import java.util.List;
 
 @Stateless

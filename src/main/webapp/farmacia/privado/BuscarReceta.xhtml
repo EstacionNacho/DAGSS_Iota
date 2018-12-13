@@ -4,10 +4,10 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-         
+
       xmlns:p="http://primefaces.org/ui">
-      
-      <body>
+
+    <body>
 
         <ui:composition template="/plantillas/plantillaComun.xhtml">
 
@@ -19,7 +19,7 @@
                 <ui:include src="/plantillas/menuComun.xhtml"/>
             </ui:define>
 
-            <ui:define name="contenido">
+            <ui:define name="buscarReceta">
                 <h:form id="buscarReceta" title="Receta">
                     <h:inputText id="numTargeta" value="#{pacienteControlador.numeroTarjetaSanitaria}"/>
                     <h:commandButton value="Buscar" action="#{pacienteControlador.datosPacienteTargeta()}" />
@@ -29,25 +29,24 @@
                     <h:outputText value="#{pacienteControlador.pacienteActual.numeroTarjetaSanitaria}"></h:outputText>
                 </h:column>
             </ui:define>
-            
-            <ui:define name="recetas">
-                <h:form id="detalleReceta">
-                    <h3>Detalle Receta</h3>
+            <ui:define name="infoReceta">
+                <h:form id="infoReceta">
+                    <h3>Información Receta</h3>
                     <p:dataTable value="#{pacienteControlador.recetas}" var="receta">
-                       <p:column>
+                        <p:column>
                             <f:facet name="header"><h:outputLabel value="INICIO VALIDEZ"/></f:facet>
                             <h:outputText value="#{receta.inicioValidez}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                </h:outputText>
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
                         </p:column>
                         <p:column>
                             <f:facet name="header"><h:outputLabel value="FIN VALIDEZ"/></f:facet>
                             <h:outputText value="#{receta.finValidez}">
-                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
-                                </h:outputText>
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
                         </p:column>
-                         <p:column headerText="CANTIDAD">
-                             <h:outputText value="#{receta.cantidad}"/>
+                        <p:column headerText="CANTIDAD">
+                            <h:outputText value="#{receta.cantidad}"/>
                         </p:column>
                         <p:column headerText="Estado">
                             <h:outputText value="#{receta.estadoReceta}"/>
