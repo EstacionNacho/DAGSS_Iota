@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:b="http://bootsfaces.net/ui">
+      
+    <h:head>
+        <title>Recetas del Paciente</title>
+    </h:head>
+    <h:body>
+        <ui:composition template="/plantillas/plantillaComun.xhtml">
+            <ui:define name="contenido">
+            <h3> Lista de Recetas </h3>
+                <h:form id="listaRecetas">
+                    <p:dataTable value="#{farmaciaControlador.recetas}" var="receta">
+                        <p:column headerText="MEDICAMENTO">
+                            <h:outputText value="#{receta.prescripcion.medicamento.nombre}"/>
+                        </p:column>
+                        <p:column headerText="MEDICO">
+                            <h:outputText value="#{receta.prescripcion.medico.nombre}"/>
+                        </p:column>
+                       <p:column>
+                            <f:facet name="header"><h:outputLabel value="FECH.INICIO"/></f:facet>
+                            <h:outputText value="#{receta.inicioValidez}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header"><h:outputLabel value="FECH.FIN"/></f:facet>
+                            <h:outputText value="#{receta.finValidez}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                        </p:column>
+                        <p:column headerText="DISPONIBILIDAD">
+                            <h:outputText value="#{receta.estadoReceta}"/>
+                        </p:column>
+                         <p:column headerText="DOSIS">
+                             <h:outputText value="#{receta.cantidad}"/>
+                        </p:column>
+                        <p:column headerText="INSTRUC.">
+                            <h:outputText value="#{receta.prescripcion.indicaciones}"/>
+                        </p:column>
+                    </p:dataTable>
+                    <h:commandButton value="Volver" action="index"/>
+                </h:form>
+            </ui:define>            
+        </ui:composition>
+    </h:body>
+</html>
