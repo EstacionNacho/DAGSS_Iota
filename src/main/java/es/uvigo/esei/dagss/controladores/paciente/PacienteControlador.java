@@ -11,13 +11,6 @@ import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 
-//Imports nuevos
-import es.uvigo.esei.dagss.dominio.entidades.Receta;
-import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
-import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
-import es.uvigo.esei.dagss.dominio.daos.PrescripcionDAO;
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -37,22 +30,12 @@ public class PacienteControlador implements Serializable {
     private String numeroTarjetaSanitaria;
     private String numeroSeguridadSocial;
     private String password;
-
-    //Atributos nuevos
-    private List<Receta> recetas;
-    private List<Prescripcion> prescripciones;
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
 
     @Inject
     private PacienteDAO pacienteDAO;
-    
-    //Injects nuevos
-    @Inject
-    private RecetaDAO recetaDAO;
-    @Inject
-    private PrescripcionDAO prescripcionDAO;
     
     /**
      * Creates a new instance of AdministradorControlador
@@ -151,28 +134,5 @@ public class PacienteControlador implements Serializable {
             }
         }
         return destino;
-    }
-
-    public String datosPacienteTargeta() {
-
-        String destino = null;
-
-        Paciente paciente = pacienteDAO.buscarPorTarjetaSanitaria(this.numeroTarjetaSanitaria);
-        if (paciente == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe un paciente con targeta sanitaria: " + numeroTarjetaSanitaria, ""));
-        } else {
-            pacienteActual = paciente;
-            recetas = recetaDAO.buscarPorIdPacienteConPrescripcion(paciente.getId());
-            destino = "BuscarReceta";
-        }
-        
-        return destino;
-    }
-    
-    public List<Receta> getRecetas(){
-        return recetas;
-    }
-    public List<Prescripcion> getPrescripciones(){
-        return prescripciones;
     }
 }

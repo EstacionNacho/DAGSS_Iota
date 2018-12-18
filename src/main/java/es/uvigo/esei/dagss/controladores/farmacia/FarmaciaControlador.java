@@ -22,7 +22,12 @@ import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.daos.PacienteDAO;
 import es.uvigo.esei.dagss.dominio.daos.PrescripcionDAO;
 import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -41,6 +46,7 @@ public class FarmaciaControlador implements Serializable {
     private List<Receta> recetas;
     private List<Prescripcion> prescripciones;
     private String numeroTarjetaSanitaria;
+    private Receta recetaActual;
     
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -53,7 +59,7 @@ public class FarmaciaControlador implements Serializable {
     private RecetaDAO recetaDAO;
     @Inject
     private PrescripcionDAO prescripcionDAO;
-        @Inject
+    @Inject
     private PacienteDAO pacienteDAO;
 
     /**
@@ -114,13 +120,11 @@ public class FarmaciaControlador implements Serializable {
     
      public String gotoRecetas(){
          
-        String destino;
-        
+        String destino = "BuscarReceta";
         Paciente paciente = pacienteDAO.buscarPorTarjetaSanitaria(numeroTarjetaSanitaria);
-        
+
         if (paciente == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe un paciente con targeta sanitaria: " + numeroTarjetaSanitaria, ""));
-            destino =  "BuscarReceta";
         } else {
             pacienteActual = paciente;
             recetas = recetaDAO.buscarPorIdPacienteConPrescripcion(pacienteActual.getId());
@@ -130,10 +134,43 @@ public class FarmaciaControlador implements Serializable {
         return destino;
     }
      
+    public String comprobarSituacion(Date inicio, Date fin){
+       
+        Date actual = new Date();
+        String toRet = "No disponible";
+        
+        if(actual.before(fin) && actual.after(inicio)){
+            toRet = "Disponible para suministro";
+        }
+        
+        return toRet;
+    }
+    
+    public String servirReceta(Receta receta){
+        
+        String destino = "listaRecetas";
+        Date actual = new Date();
+        
+        if(receta.getEstadoReceta().getEtiqueta().equals("GENERADA") && actual.before(receta.getFinValidez()) && actual.after(receta.getInicioValidez())){
+            recetaActual = receta;
+            destino = "ServirReceta";
+        }
+        
+        return destino;
+    }
+     
      public String doShowReceta(List<Receta> recetas){
         this.recetas=recetas;
         return "detalleReceta";
     }
+     
+     public Receta getReceta(){
+         return recetaActual;
+     }
+     
+     public void setReceta(Receta receta){
+         this.recetaActual = receta;
+     }
     
     public List<Receta> getRecetas(){
         return recetas;
@@ -154,4 +191,7 @@ public class FarmaciaControlador implements Serializable {
         return pacienteActual;
     }
 
+     public void doActualizarReceta(Receta receta){
+        recetaDAO.actualizar(receta);
+    }
 }

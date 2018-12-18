@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 //Imports nuevos
 import java.util.List;
+import java.util.Date;
 
 @Stateless
 @LocalBean
