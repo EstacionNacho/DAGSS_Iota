@@ -19,6 +19,17 @@
             </ui:define>
 
             <ui:define name="contenido">
+                <h:form id="atencionPaciente">
+                    <p:dataTable value="#{medicoControlador.citaActual}" var="cita">
+                        <p:column headerText="Cita">
+                            <h:outputText value="#{medicoControlador.citaActual.estado.etiqueta}"/>
+                        </p:column>
+                        <p:column>
+                            <h:commandButton value="Atención paciente" action="#{medicoControlador.gotoAtencion()}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
             </ui:define>
         </ui:composition>
 

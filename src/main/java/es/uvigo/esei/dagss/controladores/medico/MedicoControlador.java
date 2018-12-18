@@ -4,7 +4,6 @@
 package es.uvigo.esei.dagss.controladores.medico;
 
 import es.uvigo.esei.dagss.controladores.autenticacion.AutenticacionControlador;
-import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 import es.uvigo.esei.dagss.dominio.daos.MedicoDAO;
 import es.uvigo.esei.dagss.dominio.entidades.Medico;
 import es.uvigo.esei.dagss.dominio.entidades.TipoUsuario;
@@ -15,6 +14,10 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+
+//Imports nuevos
+import es.uvigo.esei.dagss.dominio.entidades.Cita;
+import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
 
 /**
  *
@@ -29,11 +32,19 @@ public class MedicoControlador implements Serializable {
     private String dni;
     private String numeroColegiado;
     private String password;
+    
+    //Atributos nuevos
+    private Cita citaActual;
 
     @Inject
     private AutenticacionControlador autenticacionControlador;
     
+    
+     //Injects nuevos
+    @Inject
+    private CitaDAO citaDAO;
 
+    
     @EJB
     private MedicoDAO medicoDAO;
 
@@ -111,6 +122,26 @@ public class MedicoControlador implements Serializable {
         return destino;
     }
 
+    public String gotoAtencion(){
+        
+        String destino = "index";
+        
+        if(citaActual.getEstado().getEtiqueta().equals("PLANIFICADA")){
+            destino = "FormularioAtencion";
+        }
+        
+        return destino;
+    }
+    
+    public Cita getCitaActual(){
+        Long id = new Long(1);
+        citaActual = citaDAO.buscarPorId(id);
+        return citaActual;
+    }
+    public void setCitaActual(Cita cita){
+        this.citaActual = cita;
+    }
+    
     //Acciones
     public String doShowCita() {
         return "detallesCita";
