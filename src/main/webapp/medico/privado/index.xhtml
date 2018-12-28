@@ -19,17 +19,10 @@
             </ui:define>
 
             <ui:define name="contenido">
-                <h:form id="atencionPaciente">
-                    <p:dataTable value="#{medicoControlador.citaActual}" var="cita">
-                        <p:column headerText="Cita">
-                            <h:outputText value="#{medicoControlador.citaActual.estado.etiqueta}"/>
-                        </p:column>
-                        <p:column>
-                            <h:commandButton value="Atención paciente" action="#{medicoControlador.gotoAtencion()}"/>
-                        </p:column>
-                    </p:dataTable>
-                </h:form>
-
+                
+                <h3>Opciones Médico</h3>
+                <li> <h:link outcome="#{medicoControlador.doGetCitasMedico()}" value="agenda" /> </li> 
+                
             </ui:define>
         </ui:composition>
 

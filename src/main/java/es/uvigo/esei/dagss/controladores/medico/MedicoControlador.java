@@ -18,6 +18,13 @@ import javax.inject.Inject;
 //Imports nuevos
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import org.primefaces.event.SelectEvent;
 
 /**
  *
@@ -35,6 +42,8 @@ public class MedicoControlador implements Serializable {
     
     //Atributos nuevos
     private Cita citaActual;
+    private List<Cita> citas;
+    private Cita citaDetalle;
 
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -122,9 +131,10 @@ public class MedicoControlador implements Serializable {
         return destino;
     }
 
-    public String gotoAtencion(){
+    public String gotoAtencion(Cita cita){
         
         String destino = "index";
+        citaActual = cita;
         
         if(citaActual.getEstado().getEtiqueta().equals("PLANIFICADA")){
             destino = "FormularioAtencion";
@@ -143,7 +153,66 @@ public class MedicoControlador implements Serializable {
     }
     
     //Acciones
-    public String doShowCita() {
+    public String doShowCita(Cita cita) {
+        
+        citaActual = cita;
+        
         return "detallesCita";
+    }
+    
+    public String getFechaActual(){
+       Date date = Calendar.getInstance().getTime();
+       SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+       String d = dateFormat.format(date);
+       return d;
+    }
+    
+    public Date convertStringFecha(String d) throws ParseException{
+        DateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = dFormat.parse(d);
+        return date;
+}
+    
+    public String doGetCitasMedico() throws ParseException{
+       String fechaActual = this.getFechaActual();
+       Date stringFechaActual = this.convertStringFecha(fechaActual);
+       
+      //citas = citaDAO.buscarCitasPorMedicoDia(medicoActual.getId(), stringFechaActual);
+      
+      citas = citaDAO.buscarCitasPorMedico(medicoActual.getId());
+       
+       return "agenda";        
+    }    
+    
+    public List<Cita> getCitas(){
+        return citas;
+    }
+    
+    public void setCitas(List<Cita> citas){
+        this.citas = citas;
+    }
+    
+    public Cita getCitaDetalle(){
+        return citaDetalle;
+    }
+    
+    public void setCitaDetalle(Cita citaDetalle){
+        this.citaDetalle=citaDetalle;
+    }    
+    
+    public String doActualizarEstadoCita() throws ParseException{
+        citaDAO.actualizarEstadoCita(citaDetalle);
+        return this.doGetCitasMedico();
+    }
+    
+    public void onDateSelect(SelectEvent event) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Date Selected", format.format(event.getObject())));
+    }
+    
+    public String detalleMedico(Medico medico){
+        this.medicoActual=medico;
+        return "./detalleMedico.xhtml";
     }
 }
