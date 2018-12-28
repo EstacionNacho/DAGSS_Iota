@@ -8,6 +8,10 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
+//Imports nuevos
+import es.uvigo.esei.dagss.dominio.entidades.Paciente;
+import java.util.List;
+
 @Stateless
 @LocalBean
 public class PrescripcionDAO extends GenericoDAO<Prescripcion> {
@@ -21,4 +25,12 @@ public class PrescripcionDAO extends GenericoDAO<Prescripcion> {
     }
     
     // Completar aqui  
+    
+    public List<Prescripcion> buscarPorPaciente(String paciente){
+        
+        TypedQuery<Prescripcion> q = em.createQuery("SELECT p FROM Prescripcion AS p WHERE p.paciente.numeroTarjetaSanitaria = :paciente", Prescripcion.class);      
+        q.setParameter("paciente", paciente);
+        
+        return q.getResultList();
+    }
 }

@@ -18,6 +18,9 @@ import javax.inject.Inject;
 //Imports nuevos
 import es.uvigo.esei.dagss.dominio.entidades.Cita;
 import es.uvigo.esei.dagss.dominio.daos.CitaDAO;
+import es.uvigo.esei.dagss.dominio.daos.PrescripcionDAO;
+import es.uvigo.esei.dagss.dominio.entidades.Paciente;
+import es.uvigo.esei.dagss.dominio.entidades.Prescripcion;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,6 +47,8 @@ public class MedicoControlador implements Serializable {
     private Cita citaActual;
     private List<Cita> citas;
     private Cita citaDetalle;
+    private Paciente pacienteActual;
+    private List<Prescripcion> prescripciones;
 
     @Inject
     private AutenticacionControlador autenticacionControlador;
@@ -52,6 +57,8 @@ public class MedicoControlador implements Serializable {
      //Injects nuevos
     @Inject
     private CitaDAO citaDAO;
+    @Inject
+    private PrescripcionDAO prescripcionDAO;
 
     
     @EJB
@@ -137,6 +144,7 @@ public class MedicoControlador implements Serializable {
         citaActual = cita;
         
         if(citaActual.getEstado().getEtiqueta().equals("PLANIFICADA")){
+            prescripciones = prescripcionDAO.buscarPorPaciente(citaActual.getPaciente().getNumeroTarjetaSanitaria());
             destino = "FormularioAtencion";
         }
         
@@ -188,6 +196,10 @@ public class MedicoControlador implements Serializable {
         return citas;
     }
     
+    public List<Prescripcion> getPrescripciones(){
+        return prescripciones;
+    }
+    
     public void setCitas(List<Cita> citas){
         this.citas = citas;
     }
@@ -215,4 +227,12 @@ public class MedicoControlador implements Serializable {
         this.medicoActual=medico;
         return "./detalleMedico.xhtml";
     }
+    
+    public String goToAgenda() throws ParseException{
+       
+       citas = citaDAO.buscarCitasPorMedico(medicoActual.getId());
+       
+       return "agenda";        
+    }
+    
 }

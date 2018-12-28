@@ -14,9 +14,37 @@
             <ui:define name="contenido">
             <h3> Atención al paciente </h3>
                 <h:form id="atencionPaciente">
-                    <p:dataTable value="#{medicoControlador.citaActual}" var="cita">
-                        <h2>  Atencion paciente </h2>
-                        </p:dataTable>
+                    <h3>Formulario de Prescripciones</h3>
+
+                    <h:commandButton value="Volver"  action="#{medicoControlador.goToAgenda()}"/>
+                    
+                    <p:dataTable value="#{medicoControlador.prescripciones}" var="prescripcion">
+                        <p:column>
+                            <f:facet name="header"><h:outputLabel value="Medicamento"/></f:facet>
+                            <h:outputText value="#{prescripcion.medicamento.nombre}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header"><h:outputLabel value="Dosis"/></f:facet>
+                            <h:outputText value="#{prescripcion.dosis}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header"><h:outputLabel value="Fecha inicio"/></f:facet>
+                            <h:outputText value="#{prescripcion.fechaInicio}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header"><h:outputLabel value="Fecha fin"/></f:facet>
+                            <h:outputText value="#{prescripcion.fechaFin}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header"><h:outputLabel value="Indicaciones"/></f:facet>
+                            <h:outputText value="#{prescripcion.indicaciones}"/>
+                        </p:column>
+                                               
+                    </p:dataTable>
                 </h:form>
             </ui:define>            
         </ui:composition>
