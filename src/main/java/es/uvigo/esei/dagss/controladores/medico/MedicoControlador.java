@@ -205,15 +205,15 @@ public class MedicoControlador implements Serializable {
     }
     
     public Cita getCitaDetalle(){
-        return citaDetalle;
+        return citaActual;
     }
     
     public void setCitaDetalle(Cita citaDetalle){
-        this.citaDetalle=citaDetalle;
+        this.citaActual=citaDetalle;
     }    
     
     public String doActualizarEstadoCita() throws ParseException{
-        citaDAO.actualizarEstadoCita(citaDetalle);
+        citaDAO.actualizarEstadoCita(citaActual);
         return this.doGetCitasMedico();
     }
     
