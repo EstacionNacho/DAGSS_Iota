@@ -27,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -144,8 +146,15 @@ public class MedicoControlador implements Serializable {
         citaActual = cita;
         
         if(citaActual.getEstado().getEtiqueta().equals("PLANIFICADA")){
-            prescripciones = prescripcionDAO.buscarPorPaciente(citaActual.getPaciente().getNumeroTarjetaSanitaria());
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                String dateString = format.format(new Date());
+                Date date = format.parse(dateString);
+                            prescripciones = prescripcionDAO.buscarPorPaciente(citaActual.getPaciente().getNumeroTarjetaSanitaria(), date);
             destino = "FormularioAtencion";
+            } catch (ParseException ex) {
+                Logger.getLogger(MedicoControlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         return destino;
@@ -233,6 +242,10 @@ public class MedicoControlador implements Serializable {
        citas = citaDAO.buscarCitasPorMedico(medicoActual.getId());
        
        return "agenda";        
+    }
+    
+    public String gotoCrearReceta(Paciente paciente){
+        return "CrearPrescripcion";
     }
     
 }

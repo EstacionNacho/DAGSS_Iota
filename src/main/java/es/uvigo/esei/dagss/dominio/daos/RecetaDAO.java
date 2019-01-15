@@ -16,13 +16,14 @@ import java.util.Date;
 @Stateless
 @LocalBean
 public class RecetaDAO extends GenericoDAO<Receta>{
- 
-    public List<Receta> buscarPorIdPacienteConPrescripcion(Long id) {
+    
+    public List<Receta> buscarPorIdPacienteConPrescripcion(Long id, Date fecha) {
         
         TypedQuery<Receta> q = em.createQuery("SELECT r FROM Receta AS r"
-                + " WHERE r.prescripcion.paciente.id = :id", Receta.class);
+                + " WHERE r.prescripcion.paciente.id = :id AND r.prescripcion.fechaFin >= :fecha", Receta.class);
         
         q.setParameter("id", id);
+        q.setParameter("fecha", fecha); 
         
         return q.getResultList();
     }
