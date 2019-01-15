@@ -22,6 +22,7 @@ import es.uvigo.esei.dagss.dominio.entidades.Receta;
 import es.uvigo.esei.dagss.dominio.daos.PacienteDAO;
 import es.uvigo.esei.dagss.dominio.daos.PrescripcionDAO;
 import es.uvigo.esei.dagss.dominio.daos.RecetaDAO;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Date;
@@ -117,28 +118,35 @@ public class FarmaciaControlador implements Serializable {
         }
         return destino;
     }
-    
-     public String gotoRecetas(){
-         
+
+    public String gotoRecetas() {
+
         String destino = "BuscarReceta";
         Paciente paciente = pacienteDAO.buscarPorTarjetaSanitaria(numeroTarjetaSanitaria);
 
         if (paciente == null) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "No existe un paciente con targeta sanitaria: " + numeroTarjetaSanitaria, ""));
         } else {
-            pacienteActual = paciente;
-            recetas = recetaDAO.buscarPorIdPacienteConPrescripcion(pacienteActual.getId());
-            destino = "listaRecetas";
+            try {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                String dateString = format.format(new Date());
+                Date date = format.parse(dateString);
+                pacienteActual = paciente;
+                recetas = recetaDAO.buscarPorIdPacienteConPrescripcion(pacienteActual.getId(), date);
+                destino = "listaRecetas";
+            } catch (ParseException ex) {
+                Logger.getLogger(FarmaciaControlador.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-         
+
         return destino;
     }
-     
-    public String comprobarSituacion(Date inicio, Date fin){
-       
+
+    public String comprobarSituacion(Date inicio, Date fin) {
+
         Date actual = new Date();
         String toRet = "No disponible";
-        
+
         if(actual.before(fin) && actual.after(inicio)){
             toRet = "Disponible para suministro";
         }
@@ -191,7 +199,7 @@ public class FarmaciaControlador implements Serializable {
         return pacienteActual;
     }
 
-     public void doActualizarReceta(Receta receta){
+     public void ActualizarReceta(Receta receta){
         recetaDAO.actualizar(receta);
     }
 }

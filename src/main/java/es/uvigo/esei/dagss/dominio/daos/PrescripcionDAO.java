@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 
 //Imports nuevos
 import es.uvigo.esei.dagss.dominio.entidades.Paciente;
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -30,6 +31,15 @@ public class PrescripcionDAO extends GenericoDAO<Prescripcion> {
         
         TypedQuery<Prescripcion> q = em.createQuery("SELECT p FROM Prescripcion AS p WHERE p.paciente.numeroTarjetaSanitaria = :paciente", Prescripcion.class);      
         q.setParameter("paciente", paciente);
+        
+        return q.getResultList();
+    }
+    
+    public List<Prescripcion> buscarPorPaciente(String paciente, Date fecha){
+        
+        TypedQuery<Prescripcion> q = em.createQuery("SELECT p FROM Prescripcion AS p WHERE p.paciente.numeroTarjetaSanitaria = :paciente AND p.fechaFin >= :fecha", Prescripcion.class);      
+        q.setParameter("paciente", paciente);
+        q.setParameter("fecha", fecha);
         
         return q.getResultList();
     }

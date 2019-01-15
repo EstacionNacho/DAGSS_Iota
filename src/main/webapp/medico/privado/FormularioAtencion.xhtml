@@ -15,8 +15,6 @@
             <h3> Atención al paciente </h3>
                 <h:form id="atencionPaciente">
                     <h3>Formulario de Prescripciones</h3>
-
-                    <h:commandButton value="Volver"  action="#{medicoControlador.goToAgenda()}"/>
                     
                     <p:dataTable value="#{medicoControlador.prescripciones}" var="prescripcion">
                         <p:column>
@@ -42,9 +40,11 @@
                         <p:column>
                             <f:facet name="header"><h:outputLabel value="Indicaciones"/></f:facet>
                             <h:outputText value="#{prescripcion.indicaciones}"/>
-                        </p:column>
-                                               
+                        </p:column> 
                     </p:dataTable>
+                    <!-- HISTORIA 9 A PARTIR DE AQUI, DEJE UN BOTON DE REFERENCIA PARA LA NUEVA RECETA-->
+                    <h:commandButton value="Nueva prescripcion" action="#{medicoControlador.gotoCrearPrescripcion()}"/>
+                    <h:commandButton value="Volver"  action="#{medicoControlador.goToAgenda()}"/>
                 </h:form>
             </ui:define>            
         </ui:composition>
